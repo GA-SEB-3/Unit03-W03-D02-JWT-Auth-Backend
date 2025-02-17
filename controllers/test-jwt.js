@@ -14,8 +14,18 @@ router.get("/sign-token",(req,res)=>{
 
 
 router.post("/verify",(req,res)=>{
-    console.log(req.headers.authorization.split(" ")[1])
-    res.json({message:"Success"})
+    try{
+        console.log(req.headers.authorization.split(" ")[1])
+
+        const token = req.headers.authorization.split(" ")[1]
+    
+        const decoded = jwt.verify(token,process.env.JWT_SECRET)
+        res.json({decoded:decoded})
+    
+    }
+    catch(err){
+        res.json(err)
+    }
 })
 
 module.exports = router
