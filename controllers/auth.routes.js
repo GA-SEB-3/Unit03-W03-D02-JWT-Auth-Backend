@@ -3,6 +3,7 @@ const User = require("../models/User")
 const router = require("express").Router()
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const verifyToken = require("../middleware/verify-token")
 
 router.post("/sign-up",async(req,res)=>{
     try{
@@ -51,13 +52,18 @@ router.post("/login",async(req,res)=>{
         delete payload.hashedPassword
 
         // sign(payload, secret password, expirastion time)
-        const token = jwt.sign({payload},process.env.JWT_SECRET,{expiresIn:"1h"})
+        const token = jwt.sign({payload},process.env.JWT_SECRET,{expiresIn:"30m"})
 
         res.status(200).json({token})
 
     }catch(error){
         res.status(500).json(error)
     }
+})
+
+router.get("/verify",verifyToken,(req,res)=>{
+    console.log(req.user)
+    res.json(req.user)
 })
 
 
