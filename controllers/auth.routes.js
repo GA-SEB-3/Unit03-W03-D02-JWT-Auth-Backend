@@ -47,7 +47,13 @@ router.post("/login",async(req,res)=>{
             return res.status(401).json({err:"username or password incorrect"})
         }
         // 3. create the JWT token
+        const payload = foundUser.toObject()
+        delete payload.hashedPassword
 
+        // sign(payload, secret password, expirastion time)
+        const token = jwt.sign({payload},process.env.JWT_SECRET,{expiresIn:"1h"})
+
+        res.status(200).json(token)
 
     }catch(error){
         res.status(500).json(error)
