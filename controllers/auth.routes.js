@@ -53,7 +53,7 @@ router.post("/login",async(req,res)=>{
         // sign(payload, secret password, expirastion time)
         const token = jwt.sign({payload},process.env.JWT_SECRET,{expiresIn:"1h"})
 
-        res.status(200).json(token)
+        res.status(200).json({token})
 
     }catch(error){
         res.status(500).json(error)

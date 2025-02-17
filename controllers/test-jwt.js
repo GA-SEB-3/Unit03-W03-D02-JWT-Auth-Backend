@@ -1,5 +1,12 @@
 const router = require("express").Router()
 const jwt = require("jsonwebtoken")
+const verifyToken = require("../middleware/verify-token")
+
+
+router.get("/checkout",verifyToken,(req,res)=>{
+
+    res.json({message:"You are checked out"})
+})
 
 router.get("/sign-token",(req,res)=>{
     const user = {
